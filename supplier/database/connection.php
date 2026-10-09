@@ -4,7 +4,7 @@ class Database
     private $host = "localhost";
     private $username = "root";
     private $password = "";
-    private $database = "E-Inventory";
+    private $database = "e-inventory";
 
     public $conn;
 

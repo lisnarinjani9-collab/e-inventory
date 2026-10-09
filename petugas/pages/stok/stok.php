@@ -71,6 +71,11 @@ function linkHalaman($nomor_halaman, $kata_cari)
     return 'index.php?page=stok&cari=' . urlencode($kata_cari) . '&halaman=' . $nomor_halaman;
 }
 ?>
+  <!-- Sembunyikan scrollbar bawaan browser khusus halaman Stok & Opname (halaman tetap bisa di-scroll) -->
+  <style>
+    html { scrollbar-width: none; -ms-overflow-style: none; }
+    html::-webkit-scrollbar { display: none; width: 0; height: 0; }
+  </style>
   <main id="content" class="content py-10">
     <div class="container-fluid">
       <div class="row">

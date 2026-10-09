@@ -1,80 +1,82 @@
-<section id="services" class="services section light-background">
+<?php
+// Variabel di bawah disiapkan di function/data-dashboard.php (lewat partials/head.php).
+// Baris ??= hanya memberi nilai awal supaya editor tidak menandai "undefined variable";
+// kalau variabelnya sudah ada, nilainya tidak berubah.
+$jumlah_po         ??= ['diajukan' => 0, 'disetujui' => 0, 'ditolak' => 0, 'selesai' => 0];
+
+/**
+ * @var array<string,int> $jumlah_po
+ */
+?>
+<section id="status-po" class="pricing section light-background">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Penawaran Harga</h2>
-        <p>Layanan yang tersedia bagi supplier untuk mengelola penawaran dan memantau pesanan</p>
+        <h2>Status PO</h2>
+        <p>Tahapan Purchase Order dari pengajuan gudang sampai barang diterima</p>
       </div><!-- End Section Title -->
 
       <div class="container">
 
-        <div class="row g-5">
+        <div class="row gy-4">
 
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item item-cyan position-relative">
-              <i class="bi bi-cash-coin icon"></i>
-              <div>
-                <h3>Input Penawaran Harga</h3>
-                <p>Masukkan harga bahan baku yang Anda tawarkan agar dapat dipertimbangkan gudang dan manajer.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+            <div class="pricing-item">
+              <h3>PO Diajukan</h3>
+              <p class="description">PO yang baru dibuat gudang dan menunggu verifikasi manajer</p>
+              <h4><?= $jumlah_po['diajukan'] ?><span> PO</span></h4>
+              <a href="/?status=diajukan#riwayat-po" class="cta-btn">Lihat Detail</a>
+              <p class="text-center small">Menunggu verifikasi</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Gudang mengajukan kebutuhan bahan baku</span></li>
+                <li><i class="bi bi-check"></i> <span>PO tercatat di sistem</span></li>
+                <li><i class="bi bi-check"></i> <span>Supplier melihat status PO</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Manajer memverifikasi pengajuan</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Manajer menyetujui PO</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Supplier mengirim barang</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Gudang mencatat barang masuk</span></li>
+              </ul>
             </div>
-          </div><!-- End Service Item -->
+          </div><!-- End Pricing Item -->
 
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item item-orange position-relative">
-              <i class="bi bi-pencil-square icon"></i>
-              <div>
-                <h3>Perbarui Harga</h3>
-                <p>Ubah harga satuan kapan saja jika terjadi perubahan harga bahan baku.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="pricing-item featured">
+              <p class="popular">Perlu Dikirim</p>
+              <h3>PO Disetujui</h3>
+              <p class="description">PO yang sudah disetujui manajer dan siap dipenuhi supplier</p>
+              <h4><?= $jumlah_po['disetujui'] ?><span> PO</span></h4>
+              <a href="/?status=disetujui#riwayat-po" class="cta-btn">Lihat Detail</a>
+              <p class="text-center small">Siap dikirim</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Gudang mengajukan kebutuhan bahan baku</span></li>
+                <li><i class="bi bi-check"></i> <span>PO tercatat di sistem</span></li>
+                <li><i class="bi bi-check"></i> <span>Supplier melihat status PO</span></li>
+                <li><i class="bi bi-check"></i> <span>Manajer memverifikasi pengajuan</span></li>
+                <li><i class="bi bi-check"></i> <span>Manajer menyetujui PO</span></li>
+                <li><i class="bi bi-check"></i> <span>Supplier mengirim barang</span></li>
+                <li class="na"><i class="bi bi-x"></i> <span>Gudang mencatat barang masuk</span></li>
+              </ul>
             </div>
-          </div><!-- End Service Item -->
+          </div><!-- End Pricing Item -->
 
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item item-teal position-relative">
-              <i class="bi bi-box-seam icon"></i>
-              <div>
-                <h3>Daftar Barang</h3>
-                <p>Lihat daftar bahan baku beserta harga satuan yang tercatat di sistem.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="pricing-item">
+              <h3>PO Selesai</h3>
+              <p class="description">PO yang barangnya sudah diterima dan dicatat oleh gudang</p>
+              <h4><?= $jumlah_po['selesai'] ?><span> PO</span></h4>
+              <a href="/?status=selesai#riwayat-po" class="cta-btn">Lihat Detail</a>
+              <p class="text-center small">Proses selesai</p>
+              <ul>
+                <li><i class="bi bi-check"></i> <span>Gudang mengajukan kebutuhan bahan baku</span></li>
+                <li><i class="bi bi-check"></i> <span>PO tercatat di sistem</span></li>
+                <li><i class="bi bi-check"></i> <span>Supplier melihat status PO</span></li>
+                <li><i class="bi bi-check"></i> <span>Manajer memverifikasi pengajuan</span></li>
+                <li><i class="bi bi-check"></i> <span>Manajer menyetujui PO</span></li>
+                <li><i class="bi bi-check"></i> <span>Supplier mengirim barang</span></li>
+                <li><i class="bi bi-check"></i> <span>Gudang mencatat barang masuk</span></li>
+              </ul>
             </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item item-red position-relative">
-              <i class="bi bi-clipboard-check icon"></i>
-              <div>
-                <h3>Status Purchase Order</h3>
-                <p>Pantau status PO: diajukan, disetujui, ditolak, atau selesai.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item item-indigo position-relative">
-              <i class="bi bi-clock-history icon"></i>
-              <div>
-                <h3>Riwayat PO</h3>
-                <p>Telusuri PO sebelumnya beserta tanggal dan statusnya.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item item-pink position-relative">
-              <i class="bi bi-building icon"></i>
-              <div>
-                <h3>Profil Perusahaan</h3>
-                <p>Kelola nama perusahaan, nomor telepon, dan data akun supplier Anda.</p>
-                <a href="#" class="read-more stretched-link">Selengkapnya <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
+          </div><!-- End Pricing Item -->
 
         </div>
 

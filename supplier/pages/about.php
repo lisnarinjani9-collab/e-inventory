@@ -1,44 +1,68 @@
-<section id="about" class="about section">
+<?php
+// Variabel di bawah disiapkan di function/data-dashboard.php (lewat partials/head.php).
+// Baris ??= hanya memberi nilai awal supaya editor tidak menandai "undefined variable";
+// kalau variabelnya sudah ada, nilainya tidak berubah.
+include_once __DIR__ . '/../function/helper.php';
+$pesan               ??= null;
+$daftar_barang       ??= null;
 
-      <div class="container">
+/**
+ * @var array|null $pesan
+ * @var mysqli_result|null $daftar_barang
+ */
+?>
+<section id="harga" class="services section">
 
-        <div class="row gy-4">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Penawaran Harga</h2>
+        <p>Perbarui harga satuan bahan baku yang Anda tawarkan kepada gudang</p>
+      </div><!-- End Section Title -->
 
-          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p class="who-we-are">Tentang Sistem</p>
-            <h3>Pengadaan Bahan Baku yang Transparan dan Terpantau</h3>
-            <p class="fst-italic">
-              E-Inventory menghubungkan gudang, supplier, dan manajer operasional dalam satu sistem sehingga kebutuhan
-              bahan baku dapat diajukan, diverifikasi, dan dipantau dengan jelas.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> <span>Supplier dapat menginput penawaran harga bahan baku kapan saja.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Status Purchase Order (PO) dapat dilihat langsung tanpa perlu menghubungi gudang.</span></li>
-              <li><i class="bi bi-check-circle"></i> <span>Setiap PO diverifikasi dan disetujui oleh manajer operasional, lalu barang yang datang dicatat oleh petugas gudang sehingga riwayatnya tersimpan rapi.</span></li>
-            </ul>
-            <a href="#" class="read-more"><span>Selengkapnya</span><i class="bi bi-arrow-right"></i></a>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <?php if ($pesan): ?>
+          <div class="alert alert-<?= $pesan[0] ?> small"><?= $pesan[1] ?></div>
+        <?php endif; ?>
+
+        <div class="panel">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th style="width:70px">No</th>
+                  <th>Nama Barang</th>
+                  <th>Harga Satuan Saat Ini</th>
+                  <th style="width:340px">Ubah Harga</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php if ($daftar_barang && $daftar_barang->num_rows > 0): $no = 1; ?>
+                  <?php while ($barang = $daftar_barang->fetch_assoc()): ?>
+                    <tr>
+                      <td><?= $no++ ?></td>
+                      <td><?= e($barang['nama_barang']) ?></td>
+                      <td><?= rupiah($barang['harga_satuan']) ?></td>
+                      <td>
+                        <form method="post" action="/supplier/function/harga.php" class="d-flex gap-2">
+                          <input type="hidden" name="product_id" value="<?= (int) $barang['id'] ?>">
+                          <div class="input-group input-group-sm">
+                            <span class="input-group-text">Rp</span>
+                            <input type="number" name="harga_satuan" class="form-control" min="1" max="9999999999" step="any" placeholder="Harga baru" required>
+                          </div>
+                          <button type="submit" class="btn btn-sm btn-simpan">Simpan</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <?php endwhile; ?>
+                <?php else: ?>
+                  <tr><td colspan="4" class="text-center text-secondary py-4">Belum ada data barang.</td></tr>
+                <?php endif; ?>
+              </tbody>
+            </table>
           </div>
-
-          <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
-            <div class="row gy-4">
-              <div class="col-lg-6">
-                <img src="supplier/template/assets/img/about-company-1.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-6">
-                <div class="row gy-4">
-                  <div class="col-lg-12">
-                    <img src="supplier/template/assets/img/about-company-2.jpg" class="img-fluid" alt="">
-                  </div>
-                  <div class="col-lg-12">
-                    <img src="supplier/template/assets/img/about-company-3.jpg" class="img-fluid" alt="">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
         </div>
 
       </div>
+
     </section>

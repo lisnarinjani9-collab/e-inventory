@@ -12,35 +12,35 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Nunito",  sans-serif;
-  --nav-font: "Inter",  sans-serif;
+  --default-font: "Poppins",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Poppins",  sans-serif;
+  --nav-font: "Poppins",  sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root { 
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #3d4348; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #3e5055; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #388da8; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --default-color: #525252; /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #262626; /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #e66239; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #313336;  /* The default color of the main navmenu links */
-  --nav-hover-color: #77b6ca; /* Applied to main navmenu links when they are hovered over or active */
+  --nav-color: #262626;  /* The default color of the main navmenu links */
+  --nav-hover-color: #e66239; /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #313336; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #77b6ca; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-dropdown-color: #262626; /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #e66239; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
 .light-background {
-  --background-color: #f8fbfc;
+  --background-color: #fdf0ec;
   --surface-color: #ffffff;
 }
 
@@ -859,10 +859,16 @@ section,
   overflow: hidden;
 }
 
-.hero .hero-bg img {
+.hero .hero-bg {
   position: absolute;
   inset: 0;
-  display: block;
+  background: linear-gradient(180deg, #fdf0ec 0%, #ffffff 100%);
+}
+
+.hero .hero-bg img {
+  display: none;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -871,7 +877,7 @@ section,
 
 .hero .hero-bg::before {
   content: "";
-  background: color-mix(in srgb, var(--background-color), transparent 15%);
+  background: transparent;
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -1946,4 +1952,334 @@ section,
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+}
+
+/*--------------------------------------------------------------
+# E-Inventory: tampilan supplier (setelah login)
+--------------------------------------------------------------*/
+.header .header-user {
+  color: var(--nav-color);
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 30px;
+}
+
+.header .header-user i {
+  color: var(--accent-color);
+}
+
+.hero.hero-dashboard {
+  min-height: auto;
+  padding: 140px 0 70px 0;
+}
+
+.hero.hero-dashboard h1 {
+  font-size: 40px;
+  line-height: 1.3;
+}
+
+.hero.hero-dashboard p {
+  font-size: 17px;
+  margin: 12px 0 28px 0;
+}
+
+.hero .hero-badge {
+  display: inline-block;
+  background: color-mix(in srgb, var(--accent-color), transparent 88%);
+  color: var(--accent-color);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+.hero .btn-outline-accent {
+  display: inline-block;
+  padding: 9px 26px;
+  border: 1px solid var(--accent-color);
+  border-radius: 50px;
+  color: var(--accent-color);
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.hero .btn-outline-accent:hover {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.hero-stat {
+  background: var(--surface-color);
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+}
+
+.hero-stat .stat-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: #fdf0ec;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.hero-stat .stat-number {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--heading-color);
+}
+
+/* Tabel (penawaran harga & riwayat PO) */
+.panel {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.panel .table thead th {
+  background: #f5f5f5;
+  color: #262626;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.panel .table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.panel .btn-simpan {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  border: 0;
+  font-weight: 500;
+}
+
+.panel .btn-simpan:hover {
+  background: #cf5530;
+  color: var(--contrast-color);
+}
+
+.status-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.status-chips a {
+  padding: 6px 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 50px;
+  background: #ffffff;
+  color: var(--default-color);
+  font-size: 14px;
+}
+
+.status-chips a:hover,
+.status-chips a.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+/*--------------------------------------------------------------
+# E-Inventory: halaman login & register supplier
+--------------------------------------------------------------*/
+.auth-page {
+  background: #ffffff;
+}
+
+.auth-wrap {
+  display: flex;
+  min-height: 100vh;
+}
+
+.auth-side {
+  flex: 0 0 46%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 56px;
+  color: #ffffff;
+  background: linear-gradient(160deg, #e66239 0%, #c9481f 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-side::before,
+.auth-side::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.auth-side::before {
+  width: 360px;
+  height: 360px;
+  right: -120px;
+  top: -100px;
+}
+
+.auth-side::after {
+  width: 260px;
+  height: 260px;
+  left: -90px;
+  bottom: -80px;
+}
+
+.auth-side > * {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-brand,
+.auth-brand:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  font-family: var(--heading-font);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.auth-brand img {
+  height: 40px;
+  padding: 6px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.auth-side h2 {
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.auth-lead {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+
+.auth-points li {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.auth-points .pt-icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 22px;
+}
+
+.auth-foot {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+}
+
+.auth-card h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.auth-brand-mobile {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.auth-brand-mobile img {
+  height: 34px;
+}
+
+.auth-card .form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--heading-color);
+}
+
+.auth-card .form-control {
+  padding: 11px 14px;
+  border-color: #e5e5e5;
+  border-radius: 10px;
+}
+
+.auth-card .input-group .form-control {
+  border-radius: 10px 0 0 10px;
+}
+
+.auth-card .input-group .btn {
+  border-color: #e5e5e5;
+  border-radius: 0 10px 10px 0;
+}
+
+.auth-card .form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(230, 98, 57, 0.15);
+}
+
+.auth-card .btn-auth {
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.auth-card .btn-auth:hover {
+  background: #cf5530;
+}
+
+@media (max-width: 991px) {
+  .auth-side {
+    display: none;
+  }
 }
