@@ -1,8 +1,8 @@
-  <header id="header" class="header d-flex align-items-center fixed-top">
+<header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="#hero" class="logo d-flex align-items-center me-auto">
-        <img src="supplier/template/assets/img/logo.png" alt="">
+        <img src="/supplier/template/assets/img/logo.png" alt="">
         <h1 class="sitename">E-Inventory</h1>
       </a>
 
@@ -16,7 +16,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="#about">Login</a>
+      <a class="btn-getstarted" href="/supplier/login/login.php">Login</a>
 
     </div>
   </header>
