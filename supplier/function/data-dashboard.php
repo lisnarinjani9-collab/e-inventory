@@ -71,6 +71,10 @@ $daftar_pesan = [
     'harga_ok'          => ['success', 'Harga berhasil diperbarui.'],
     'harga_tidak_valid' => ['danger',  'Harga tidak valid. Isi dengan angka lebih dari 0.'],
     'harga_gagal'       => ['danger',  'Harga gagal disimpan. Coba lagi.'],
+    'barang_ok'          => ['success', 'Bahan baku baru berhasil ditambahkan dan sudah tampil di gudang.'],
+    'barang_tidak_valid' => ['danger',  'Isian tidak valid. Nama bahan baku wajib diisi (maks 150 karakter) dan harga harus lebih dari 0.'],
+    'barang_sudah_ada'   => ['warning', 'Bahan baku dengan nama itu sudah ada. Ubah harganya lewat tabel di bawah.'],
+    'barang_gagal'       => ['danger',  'Bahan baku gagal disimpan. Coba lagi.'],
 ];
 $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? null;
 

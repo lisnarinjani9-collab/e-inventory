@@ -27,9 +27,9 @@ $jumlah_po         ??= ['diajukan' => 0, 'disetujui' => 0, 'ditolak' => 0, 'sele
           <div class="col-lg-7" data-aos="fade-up">
             <span class="hero-badge"><i class="bi bi-shop me-1"></i> Portal Supplier</span>
             <h1>Halo, <span><?= e($nama_perusahaan) ?></span></h1>
-            <p>Perbarui harga bahan baku yang Anda tawarkan dan pantau Purchase Order dari gudang dalam satu tempat.</p>
+            <p>Tambahkan bahan baku, perbarui harga yang Anda tawarkan, dan pantau Purchase Order dari gudang dalam satu tempat.</p>
             <div class="d-flex flex-wrap gap-2">
-              <a href="#harga" class="btn-get-started">Ubah Harga</a>
+              <a href="#harga" class="btn-get-started">Tambah / Ubah Harga</a>
               <a href="#status-po" class="btn-outline-accent ms-0">Lihat Status PO</a>
             </div>
           </div>

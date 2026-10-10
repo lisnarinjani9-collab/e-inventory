@@ -3,6 +3,7 @@
 // Mengelola OPNAME STOK. Opname disimpan di stock_transactions dengan jenis_transaksi = 'opname',
 // kolom jumlah berisi SELISIH (stok fisik - stok sistem). Selisih bisa positif atau negatif.
 
+include_once __DIR__ . '/../login/cek-login.php';
 include_once __DIR__ . '/../database/connection.php';
 
 $koneksi = (new Database())->conn;
@@ -28,6 +29,26 @@ function hitungStok($koneksi, $product_id, $kecuali_transaksi_id = 0)
     $hitung->bind_param('ii', $product_id, $kecuali_transaksi_id);
     $hitung->execute();
     return (int) $hitung->get_result()->fetch_assoc()['stok_saat_ini'];
+}
+
+// ---------- ATUR STOK MINIMAL ----------
+// Dipakai petugas untuk mengubah batas stok minimal sebuah barang (tabel products).
+if ($aksi === 'minimal' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $product_id   = (int) ($_POST['product_id'] ?? 0);
+    $stok_minimal = $_POST['stok_minimal'] ?? '';
+
+    if ($product_id <= 0 || !ctype_digit((string) $stok_minimal) || (int) $stok_minimal > 1000000) {
+        header("Location: $kembali&pesan=minimal_tidak_valid");
+        exit;
+    }
+    $stok_minimal = (int) $stok_minimal;
+
+    $ubah_minimal = $koneksi->prepare("UPDATE products SET stok_minimal = ? WHERE id = ?");
+    $ubah_minimal->bind_param('ii', $stok_minimal, $product_id);
+    $ubah_minimal->execute();
+
+    header("Location: $kembali&pesan=minimal_ok");
+    exit;
 }
 
 // ---------- TAMBAH (CATAT OPNAME) ----------

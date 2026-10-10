@@ -16,7 +16,7 @@ $daftar_barang       ??= null;
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Penawaran Harga</h2>
-        <p>Perbarui harga satuan bahan baku yang Anda tawarkan kepada gudang</p>
+        <p>Tambahkan bahan baku yang Anda tawarkan dan perbarui harga satuannya untuk gudang</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -24,6 +24,28 @@ $daftar_barang       ??= null;
         <?php if ($pesan): ?>
           <div class="alert alert-<?= $pesan[0] ?> small"><?= $pesan[1] ?></div>
         <?php endif; ?>
+
+        <!-- Form tambah bahan baku baru -->
+        <div class="panel p-4 mb-4">
+          <h5 class="mb-1">Tambah Bahan Baku</h5>
+          <p class="text-secondary small mb-3">Bahan baku yang Anda tambahkan akan langsung muncul di tampilan petugas gudang.</p>
+          <form method="post" action="/supplier/function/barang.php" class="row g-3 align-items-end">
+            <div class="col-md-5">
+              <label for="nama_barang" class="form-label">Nama Bahan Baku</label>
+              <input type="text" id="nama_barang" name="nama_barang" class="form-control" maxlength="150" placeholder="Contoh: Tepung Terigu 25 kg" required>
+            </div>
+            <div class="col-md-4">
+              <label for="harga_baru" class="form-label">Harga Satuan</label>
+              <div class="input-group">
+                <span class="input-group-text">Rp</span>
+                <input type="number" id="harga_baru" name="harga_satuan" class="form-control" min="1" max="9999999999" step="any" placeholder="0" required>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-simpan w-100"><i class="bi bi-plus-lg me-1"></i>Tambah</button>
+            </div>
+          </form>
+        </div>
 
         <div class="panel">
           <div class="table-responsive">
@@ -56,7 +78,7 @@ $daftar_barang       ??= null;
                     </tr>
                   <?php endwhile; ?>
                 <?php else: ?>
-                  <tr><td colspan="4" class="text-center text-secondary py-4">Belum ada data barang.</td></tr>
+                  <tr><td colspan="4" class="text-center text-secondary py-4">Belum ada bahan baku. Tambahkan bahan baku pertama Anda lewat formulir di atas.</td></tr>
                 <?php endif; ?>
               </tbody>
             </table>

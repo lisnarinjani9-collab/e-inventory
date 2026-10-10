@@ -37,10 +37,10 @@ $judul_halaman = 'Login Supplier | E-Inventory';
 
       <div>
         <h2>Selamat datang kembali, Supplier.</h2>
-        <p class="auth-lead">Masuk untuk memperbarui harga bahan baku dan memantau Purchase Order dari gudang.</p>
+        <p class="auth-lead">Masuk untuk menambah bahan baku, memperbarui harga, dan memantau Purchase Order dari gudang.</p>
         <ul class="auth-points list-unstyled">
           <li><span class="pt-icon"><i class="bi bi-cash-coin"></i></span>
-            <div><strong>Penawaran harga</strong><br>Ubah harga satuan kapan saja.</div></li>
+            <div><strong>Penawaran harga</strong><br>Tambah bahan baku &amp; ubah harga kapan saja.</div></li>
           <li><span class="pt-icon"><i class="bi bi-clipboard-check"></i></span>
             <div><strong>Status Purchase Order</strong><br>Diajukan, disetujui, hingga selesai.</div></li>
           <li><span class="pt-icon"><i class="bi bi-clock-history"></i></span>

@@ -8,6 +8,8 @@ $daftar_pesan = [
     'update_ok'   => ['success', 'Data opname stok berhasil diperbarui.'],
     'hapus_ok'    => ['success', 'Data opname stok berhasil dihapus.'],
     'gagal_hapus' => ['danger',  'Data opname stok gagal dihapus.'],
+    'minimal_ok'  => ['success', 'Stok minimal berhasil diperbarui.'],
+    'minimal_tidak_valid' => ['danger', 'Stok minimal harus berupa angka 0 atau lebih.'],
 ];
 $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? null;
 
@@ -152,7 +154,13 @@ function linkHalaman($nomor_halaman, $kata_cari)
                     <td><?= $nomor_urut++ ?></td>
                     <td><?= htmlspecialchars($barang['nama_barang']) ?></td>
                     <td><?= number_format($stok, 0, ',', '.') ?></td>
-                    <td><?= number_format($barang['stok_minimal'], 0, ',', '.') ?></td>
+                    <td>
+                      <form method="post" action="function/stok.php?aksi=minimal" class="d-flex gap-1" style="max-width: 150px;">
+                        <input type="hidden" name="product_id" value="<?= $barang['id'] ?>">
+                        <input type="number" name="stok_minimal" class="form-control form-control-sm" min="0" value="<?= (int) $barang['stok_minimal'] ?>" required>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Simpan stok minimal"><i class="ti ti-device-floppy"></i></button>
+                      </form>
+                    </td>
                     <td>Rp <?= number_format($barang['harga_satuan'], 0, ',', '.') ?></td>
                     <td><span class="badge bg-<?= $warna_status ?>-subtle text-<?= $warna_status ?>"><?= $label_status ?></span></td>
                     <td class="">

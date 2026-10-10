@@ -1,11 +1,11 @@
 <?php
-// petugas/login/login.php
+// manajer/login/login.php
 
 session_start();
 
-// Kalau sudah login sebagai petugas, langsung ke dashboard
-if (isset($_SESSION['user_id']) && ($_SESSION['role'] ?? '') === 'gudang') {
-    header('Location: /e-inventory/petugas/index.php?page=dashboard');
+// Kalau sudah login sebagai manajer, langsung ke dashboard
+if (isset($_SESSION['user_id']) && ($_SESSION['role'] ?? '') === 'manajer') {
+    header('Location: /e-inventory/manajer/index.php?page=dashboard');
     exit;
 }
 
@@ -14,7 +14,7 @@ $daftar_pesan = [
     'logout'        => ['success', 'Anda berhasil logout.'],
     'kosong'        => ['danger',  'Email dan password wajib diisi.'],
     'salah'         => ['danger',  'Email atau password salah.'],
-    'bukan_petugas' => ['danger',  'Akun ini bukan akun Petugas Gudang.'],
+    'bukan_manajer' => ['danger',  'Akun ini bukan akun Manajer Operasional.'],
 ];
 $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? null;
 ?>
@@ -23,7 +23,7 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? null;
 
 <head>
   <meta charset="UTF-8" />
-  <title>Login Petugas Gudang || E-INVENTORY</title>
+  <title>Login Manajer Operasional || E-INVENTORY</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" sizes="32x32" href="../template/src/assets/images/favicon_io/favicon-32x32.png">
   <link rel="stylesheet" crossorigin href="../template/src/assets/css/main.css">
@@ -37,9 +37,10 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? null;
   <div class="card" style="max-width:420px; width:100%;">
     <div class="card-body p-5">
       <div class="text-center mb-3">
-        <a href="login.php" class="mb-4 d-inline-block"><img src="../template/src/assets/images/logo-icon.svg" alt="" width="48">
+        <a href="login.php" class="mb-4 d-inline-block"><img src="../template/src/assets/images/logo-icon.svg" alt="" width="36">
+          <span class="ms-2"> <img src="../template/src/assets/images/logo.svg" alt=""></span>
         </a>
-        <h1 class="card-title mb-1 h5">Login Petugas Gudang</h1>
+        <h1 class="card-title mb-1 h5">Login Manajer Operasional</h1>
         <p class="text-secondary small mb-4">E-Inventory - Manajemen Logistik &amp; Stok Gudang</p>
       </div>
 

@@ -54,7 +54,7 @@ $judul_halaman = 'Daftar Supplier | E-Inventory';
           <li><span class="pt-icon"><i class="bi bi-building-add"></i></span>
             <div><strong>1. Daftarkan perusahaan</strong><br>Isi data perusahaan dan buat akun.</div></li>
           <li><span class="pt-icon"><i class="bi bi-cash-coin"></i></span>
-            <div><strong>2. Input penawaran harga</strong><br>Perbarui harga satuan bahan baku.</div></li>
+            <div><strong>2. Input penawaran harga</strong><br>Tambah bahan baku dan atur harga satuannya.</div></li>
           <li><span class="pt-icon"><i class="bi bi-truck"></i></span>
             <div><strong>3. Penuhi Purchase Order</strong><br>Pantau status PO sampai barang diterima gudang.</div></li>
         </ul>
