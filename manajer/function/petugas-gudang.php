@@ -1,5 +1,5 @@
 <?php
-// manajer/function/petugas-akun.php
+// manajer/function/petugas-gudang.php
 // Manajer hanya bisa:
 //   tambah : membuatkan akun petugas gudang (role 'gudang')
 //   hapus  : menghapus akun petugas gudang
@@ -10,7 +10,8 @@ include_once __DIR__ . '/../database/connection.php';
 $koneksi = (new Database())->conn;
 
 $aksi = $_GET['aksi'] ?? '';
-$base = '/e-inventory/manajer/index.php?page=petugas-akun';
+$base        = '/e-inventory/manajer/index.php?page=petugas-gudang';
+$base_tambah = '/e-inventory/manajer/index.php?page=tambah-petugas-gudang';
 
 // Semua aksi hanya boleh lewat form (POST)
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -30,23 +31,23 @@ if ($aksi === 'tambah') {
 
     // 1. Semua kolom wajib diisi
     if ($nama === '' || $email === '' || $password === '' || $konfirmasi === '') {
-        header("Location: $base&pesan=kosong");
+        header("Location: $base_tambah&pesan=kosong");
         exit;
     }
 
     // 2. Format email harus benar
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: $base&pesan=email_tidak_valid");
+        header("Location: $base_tambah&pesan=email_tidak_valid");
         exit;
     }
 
     // 3. Password minimal 6 karakter dan harus sama dengan konfirmasi
     if (strlen($password) < 6) {
-        header("Location: $base&pesan=password_pendek");
+        header("Location: $base_tambah&pesan=password_pendek");
         exit;
     }
     if ($password !== $konfirmasi) {
-        header("Location: $base&pesan=password_beda");
+        header("Location: $base_tambah&pesan=password_beda");
         exit;
     }
 
@@ -55,7 +56,7 @@ if ($aksi === 'tambah') {
     $cek_email->bind_param('s', $email);
     $cek_email->execute();
     if ($cek_email->get_result()->num_rows > 0) {
-        header("Location: $base&pesan=email_dipakai");
+        header("Location: $base_tambah&pesan=email_dipakai");
         exit;
     }
 

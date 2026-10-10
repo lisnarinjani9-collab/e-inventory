@@ -17,7 +17,7 @@ function menuAktif($halaman_sekarang, $daftar_halaman)
       <li class="px-4 py-2"><small class="nav-text">Main</small></li>
       <li><a class="nav-link <?= menuAktif($halaman_sekarang, ['dashboard']) ?>" href="index.php?page=dashboard"><i class="ti ti-home"></i><span class="nav-text">Dashboard</span></a></li>
       <li><a class="nav-link <?= menuAktif($halaman_sekarang, ['verifikasi-po', 'detail-po']) ?>" href="index.php?page=verifikasi-po"><i class="ti ti-file-check"></i><span class="nav-text">Verifikasi PO</span></a></li>
-      <li><a class="nav-link <?= menuAktif($halaman_sekarang, ['petugas-gudang']) ?>" href="index.php?page=petugas-gudang"><i class="ti ti-users"></i><span class="nav-text">Petugas Gudang</span></a></li>
+      <li><a class="nav-link <?= menuAktif($halaman_sekarang, ['petugas-gudang', 'tambah-petugas-gudang']) ?>" href="index.php?page=petugas-gudang"><i class="ti ti-users"></i><span class="nav-text">Petugas Gudang</span></a></li>
 
       <li class="px-4 pt-4 pb-2"><small class="nav-text">Laporan</small></li>
       <li><a class="nav-link <?= menuAktif($halaman_sekarang, ['laporan-stok']) ?>" href="index.php?page=laporan-stok"><i class="ti ti-packages"></i><span class="nav-text">Laporan Stok</span></a></li>

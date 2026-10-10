@@ -32,11 +32,14 @@
             include 'pages/verifikasi-po/detail.php';
             break;
 
-
         // Petugas Gudang
         case 'petugas-gudang':
             include 'pages/petugas-gudang/petugas-gudang.php';
             break;
+        case 'tambah-petugas-gudang':
+            include 'pages/petugas-gudang/tambah-petugas.php';
+            break;
+
         // Laporan
         case 'laporan-stok':
             include 'pages/laporan-stok/laporan-stok.php';
