@@ -3,6 +3,7 @@
 
 include_once __DIR__ . '/../database/connection.php';
 include_once __DIR__ . '/supplier-ditolak.php';
+include_once __DIR__ . '/po-barang-masuk.php';
 
 $koneksi = (new Database())->conn;
 
@@ -13,9 +14,15 @@ $kembali = $base . 'barang-masuk';
 // ---------- TAMBAH ----------
 if ($aksi === 'simpan' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_id = (int) ($_POST['product_id'] ?? 0);
-    $po_id      = ($_POST['po_id'] ?? '') !== '' ? (int) $_POST['po_id'] : null;
+    $po_id      = (int) ($_POST['po_id'] ?? 0);
     $jumlah     = (int) ($_POST['jumlah'] ?? 0);
     $tanggal    = htmlspecialchars($_POST['tanggal'] ?? '');
+
+    // PO wajib dipilih, supaya jelas barang ini masuk dari PT (supplier) mana
+    if ($po_id <= 0) {
+        header("Location: {$base}tambah-barang-masuk&pesan=po_wajib");
+        exit;
+    }
 
     // Cek isiannya masuk akal
     $tanggal_valid = DateTime::createFromFormat('Y-m-d', $tanggal);
@@ -24,12 +31,32 @@ if ($aksi === 'simpan' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Cek PO ada dan sudah disetujui manajer
+    $data_po = ambilPoUntukBarangMasuk($koneksi, $po_id);
+    if (!$data_po) {
+        header("Location: {$base}tambah-barang-masuk&pesan=po_tidak_ada");
+        exit;
+    }
+
     // Cek barang ada di tabel products
-    $cek_barang = $koneksi->prepare("SELECT id FROM products WHERE id = ?");
+    $cek_barang = $koneksi->prepare("SELECT products.supplier_id FROM products WHERE products.id = ?");
     $cek_barang->bind_param('i', $product_id);
     $cek_barang->execute();
-    if ($cek_barang->get_result()->num_rows === 0) {
+    $data_barang = $cek_barang->get_result()->fetch_assoc();
+    if (!$data_barang) {
         header("Location: {$base}tambah-barang-masuk&pesan=barang_tidak_ada");
+        exit;
+    }
+
+    // Barang harus milik supplier dari PO yang dipilih
+    if ((int) $data_barang['supplier_id'] !== (int) $data_po['supplier_id']) {
+        header("Location: {$base}tambah-barang-masuk&pesan=barang_bukan_supplier");
+        exit;
+    }
+
+    // Barang yang sudah dicatat masuk untuk PO ini tidak boleh dicatat lagi
+    if (barangSudahMasukDiPo($koneksi, $po_id, $product_id)) {
+        header("Location: {$base}tambah-barang-masuk&pesan=barang_sudah_masuk");
         exit;
     }
 

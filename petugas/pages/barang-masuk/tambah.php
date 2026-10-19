@@ -1,29 +1,39 @@
 <?php
 include_once __DIR__ . '/../../database/connection.php';
-include_once __DIR__ . '/../../function/supplier-ditolak.php';
+include_once __DIR__ . '/../../function/po-barang-masuk.php';
 $koneksi = (new Database())->conn;
 
-// Daftar barang untuk pilihan "Nama Barang" (barang dari supplier yang ditolak manajer tidak ditampilkan)
-$daftar_barang = $koneksi->query(
-    "SELECT id, nama_barang FROM products
-     WHERE NOT (" . syaratSupplierDitolak() . ")
-     ORDER BY nama_barang ASC"
-);
-
-// Daftar PO untuk pilihan "Referensi PO" (hanya PO yang sudah disetujui / selesai)
-$daftar_purchase_order = $koneksi->query(
-    "SELECT purchase_orders.id, suppliers.nama_perusahaan
+// Daftar PO untuk pilihan "PO dan Supplier".
+// Hanya PO yang sudah disetujui / selesai DAN masih punya barang supplier-nya yang belum dicatat masuk.
+// PO yang semua barangnya sudah masuk tidak ditampilkan lagi.
+$data_po = [];
+$hasil_po = $koneksi->query(
+    "SELECT purchase_orders.id, purchase_orders.supplier_id, suppliers.nama_perusahaan
      FROM purchase_orders
      INNER JOIN suppliers ON suppliers.id = purchase_orders.supplier_id
      WHERE purchase_orders.status_po IN ('disetujui', 'selesai')
      ORDER BY purchase_orders.id DESC"
 );
+while ($purchase_order = $hasil_po->fetch_assoc()) {
+    $daftar_barang = daftarBarangBelumMasuk($koneksi, (int) $purchase_order['id'], (int) $purchase_order['supplier_id']);
+    if (count($daftar_barang) === 0) {
+        continue;
+    }
+    $data_po[] = [
+        'id'     => (int) $purchase_order['id'],
+        'teks'   => 'PO-' . str_pad($purchase_order['id'], 4, '0', STR_PAD_LEFT) . ' - ' . $purchase_order['nama_perusahaan'],
+        'barang' => $daftar_barang,
+    ];
+}
 
 $daftar_pesan = [
-    'tidak_valid'      => 'Isian tidak valid, periksa kembali.',
-    'barang_tidak_ada' => 'Barang yang dipilih tidak ditemukan.',
-    'po_tidak_ada'     => 'PO yang dipilih tidak ditemukan.',
-    'supplier_ditolak' => 'Barang ini milik supplier yang ditolak manajer, jadi tidak bisa dicatat.',
+    'po_wajib'              => 'PO dan supplier wajib dipilih.',
+    'tidak_valid'           => 'Isian tidak valid, periksa kembali.',
+    'barang_tidak_ada'      => 'Barang yang dipilih tidak ditemukan.',
+    'po_tidak_ada'          => 'PO yang dipilih tidak ditemukan atau belum disetujui.',
+    'barang_bukan_supplier' => 'Barang yang dipilih bukan milik supplier dari PO tersebut.',
+    'barang_sudah_masuk'    => 'Barang ini sudah dicatat masuk untuk PO tersebut.',
+    'supplier_ditolak'      => 'Barang ini milik supplier yang ditolak manajer, jadi tidak bisa dicatat.',
 ];
 $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
 ?>
@@ -50,25 +60,26 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
           <div class="card">
             <div class="card-body p-4">
               <form id="addProductForm" method="post" action="function/barang-masuk.php?aksi=simpan">
+                <?php if (count($data_po) === 0): ?>
+                  <div class="alert alert-warning">
+                    Belum ada PO yang bisa dicatat barang masuknya. PO harus sudah disetujui manajer, dan barang dari supplier-nya belum seluruhnya dicatat masuk.
+                  </div>
+                <?php endif; ?>
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <label for="product_id" class="form-label">Nama Barang</label>
-                    <select class="form-select" name="product_id" id="product_id" required>
-                      <option value="">Pilih barang</option>
-                      <?php while ($barang = $daftar_barang->fetch_assoc()): ?>
-                        <option value="<?= $barang['id'] ?>"><?= htmlspecialchars($barang['nama_barang']) ?></option>
-                      <?php endwhile; ?>
+                    <label for="po_id" class="form-label">PO dan Supplier</label>
+                    <select class="form-select" name="po_id" id="po_id" required <?= count($data_po) === 0 ? 'disabled' : '' ?>>
+                      <option value="">Pilih PO dan supplier</option>
+                      <?php foreach ($data_po as $po): ?>
+                        <option value="<?= $po['id'] ?>"><?= htmlspecialchars($po['teks']) ?></option>
+                      <?php endforeach; ?>
                     </select>
+                    <div class="form-text">Hanya PO yang sudah disetujui. Pilihan barang mengikuti supplier PO ini.</div>
                   </div>
                   <div class="col-md-6 mb-3">
-                    <label for="po_id" class="form-label">Referensi PO (opsional)</label>
-                    <select class="form-select" name="po_id" id="po_id">
-                      <option value="">Tanpa PO</option>
-                      <?php while ($purchase_order = $daftar_purchase_order->fetch_assoc()): ?>
-                        <option value="<?= $purchase_order['id'] ?>">
-                          PO-<?= str_pad($purchase_order['id'], 4, '0', STR_PAD_LEFT) ?> - <?= htmlspecialchars($purchase_order['nama_perusahaan']) ?>
-                        </option>
-                      <?php endwhile; ?>
+                    <label for="product_id" class="form-label">Nama Barang</label>
+                    <select class="form-select" name="product_id" id="product_id" required disabled>
+                      <option value="">Pilih PO terlebih dahulu</option>
                     </select>
                   </div>
                 </div>
@@ -84,7 +95,7 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
                 </div>
 
                 <div class="d-flex gap-2">
-                  <button type="submit" class="btn btn-primary">Simpan</button>
+                  <button type="submit" class="btn btn-primary" <?= count($data_po) === 0 ? 'disabled' : '' ?>>Simpan</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
 
@@ -105,3 +116,49 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
 
     </div>
   </main>
+
+  <script>
+    // Pilihan barang mengikuti PO yang dipilih:
+    // hanya barang milik supplier PO itu yang belum dicatat masuk untuk PO tersebut.
+    (function () {
+      var data_po        = <?= json_encode($data_po, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+      var pilihan_po     = document.getElementById('po_id');
+      var pilihan_barang = document.getElementById('product_id');
+      var formulir       = document.getElementById('addProductForm');
+
+      function isiPilihanBarang() {
+        var po_terpilih = null;
+        for (var i = 0; i < data_po.length; i++) {
+          if (String(data_po[i].id) === pilihan_po.value) {
+            po_terpilih = data_po[i];
+          }
+        }
+
+        pilihan_barang.innerHTML = '';
+        var pilihan_awal = document.createElement('option');
+        pilihan_awal.value = '';
+
+        if (!po_terpilih) {
+          pilihan_awal.textContent = 'Pilih PO terlebih dahulu';
+          pilihan_barang.appendChild(pilihan_awal);
+          pilihan_barang.disabled = true;
+          return;
+        }
+
+        pilihan_awal.textContent = 'Pilih barang';
+        pilihan_barang.appendChild(pilihan_awal);
+        po_terpilih.barang.forEach(function (barang) {
+          var pilihan = document.createElement('option');
+          pilihan.value = barang.id;
+          pilihan.textContent = barang.nama;
+          pilihan_barang.appendChild(pilihan);
+        });
+        pilihan_barang.disabled = false;
+      }
+
+      pilihan_po.addEventListener('change', isiPilihanBarang);
+      // Tombol Reset mengosongkan form, jadi pilihan barang ikut dikosongkan
+      formulir.addEventListener('reset', function () { setTimeout(isiPilihanBarang, 0); });
+      isiPilihanBarang();
+    })();
+  </script>

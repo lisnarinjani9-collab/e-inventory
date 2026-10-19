@@ -27,7 +27,7 @@ if (!$data) {
 // Tulisan referensi PO yang ditampilkan (tidak bisa diubah)
 $teks_po = $data['po_id']
     ? 'PO-' . str_pad($data['po_id'], 4, '0', STR_PAD_LEFT) . ' - ' . $data['nama_perusahaan']
-    : 'Tanpa PO';
+    : 'Tanpa PO (data lama)';
 
 $daftar_pesan = [
     'tidak_valid' => 'Jumlah tidak valid, periksa kembali.',
@@ -65,7 +65,7 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
                     <input type="text" class="form-control" id="nama_barang" value="<?= htmlspecialchars($data['nama_barang']) ?>" disabled>
                   </div>
                   <div class="col-md-6 mb-3">
-                    <label for="teks_po" class="form-label">Referensi PO</label>
+                    <label for="teks_po" class="form-label">PO dan Supplier</label>
                     <input type="text" class="form-control" id="teks_po" value="<?= htmlspecialchars($teks_po) ?>" disabled>
                   </div>
                 </div>
@@ -79,7 +79,7 @@ $pesan = $daftar_pesan[$_GET['pesan'] ?? ''] ?? '';
                     <input type="date" class="form-control" id="tanggal" value="<?= date('Y-m-d', strtotime($data['tanggal'])) ?>" disabled>
                   </div>
                 </div>
-                <p class="text-secondary small">Barang, referensi PO, dan tanggal tidak dapat diubah. Hanya jumlah yang bisa diperbarui.</p>
+                <p class="text-secondary small">Barang, PO dan supplier, serta tanggal tidak dapat diubah. Hanya jumlah yang bisa diperbarui.</p>
 
                 <div class="d-flex gap-2">
                   <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
